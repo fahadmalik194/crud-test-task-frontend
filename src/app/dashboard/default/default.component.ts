@@ -40,6 +40,8 @@ export class DefaultComponent implements OnInit {
   bioDataAddForm: FormGroup;
   bioDataUpdateForm: FormGroup;
 
+  files: any;
+
   constructor(private formBuilder: FormBuilder, private http: HttpService) {
     this.currentUserDetail = localStorage.getItem('currentUser');
     this.currentUserDetail = JSON.parse(this.currentUserDetail);
@@ -71,6 +73,8 @@ export class DefaultComponent implements OnInit {
   addRecord() {
     console.log('Inside Add Record Func');
   }
+
+  onUploadImage(event: any) {}
 
   onRemove(event: any) {
     console.log(event);
