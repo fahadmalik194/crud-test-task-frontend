@@ -3,8 +3,13 @@
   <h4>:: You can perform (CRUD) operations in below table</h4>
   <div class="account-options">
     <h4>
-      Logged in user:
-      <span class="currentUser">{{ currentUserDetail.username }}</span> |
+      Logged in User:
+      <strong
+        ><span class="currentUser">
+          {{ currentUserDetail.username }}</span
+        ></strong
+      >
+      |
       <a href="#"><em>Click here to signout</em></a>
     </h4>
   </div>
@@ -105,6 +110,10 @@
   </table>
 </div>
 
+<div *ngIf="bioDataArray.length == 0">
+  <h4 class="text-center">No Record Found</h4>
+</div>
+
 <div *ngIf="akomaLoaderFlag" id="akoma-loader">
   <div class="flexbox">
     <div>
@@ -128,10 +137,12 @@
           Add Record Data <em>(All fields are required)</em>
         </h5>
         <button
+          id="closeAddFormModal"
           type="button"
           class="btn-close"
           data-bs-dismiss="modal"
           aria-label="Close"
+          (click)="onCancel($event)"
         ></button>
       </div>
       <div class="modal-body">
@@ -143,16 +154,33 @@
               class="form-control"
               formControlName="name"
               id="name"
+              [ngClass]="{
+                'is-invalid': submitted && f.name.errors
+              }"
             />
+            <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+              <div *ngIf="f.name.errors.required">Name is Required</div>
+            </div>
           </div>
           <div class="mb-3">
-            <label for="father_name" class="form-label">Father Name*</label>
+            <label for="fatherName" class="form-label">Father Name*</label>
             <input
               type="text"
               class="form-control"
-              formControlName="father_name"
-              id="father_name"
+              formControlName="fatherName"
+              id="fatherName"
+              [ngClass]="{
+                'is-invalid': submitted && f.fatherName.errors
+              }"
             />
+            <div
+              *ngIf="submitted && f.fatherName.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.fatherName.errors.required">
+                Father Name is Required
+              </div>
+            </div>
           </div>
           <div class="mb-3">
             <label for="cnic" class="form-label">CNIC*</label>
@@ -161,7 +189,16 @@
               class="form-control"
               formControlName="cnic"
               id="cnic"
+              [ngClass]="{
+                'is-invalid': submitted && f.cnic.errors
+              }"
             />
+            <div *ngIf="submitted && f.cnic.errors" class="invalid-feedback">
+              <div *ngIf="f.cnic.errors.required">CNIC is Required</div>
+              <div *ngIf="f.cnic.errors?.pattern">
+                Should Be 13 Digit Number
+              </div>
+            </div>
           </div>
           <div class="mb-3">
             <label for="domicile" class="form-label">Domicile*</label>
@@ -170,6 +207,9 @@
               formControlName="domicile"
               class="form-select"
               aria-label="Default select example"
+              [ngClass]="{
+                'is-invalid': submitted && f.domicile.errors
+              }"
             >
               <option
                 *ngFor="let domicileElement of domicileDataArray"
@@ -178,20 +218,21 @@
                 {{ domicileElement.title }}
               </option>
             </select>
+            <div
+              *ngIf="submitted && f.domicile.errors"
+              class="invalid-feedback"
+            >
+              <div *ngIf="f.domicile.errors.required">Domicile is Required</div>
+            </div>
           </div>
           <div class="mb-3">
             <label for="image" class="form-label">Image*</label>
-            <!-- <input
-              type="text"
-              class="form-control"
-              formControlName="image"
-              id="image"
-            /> -->
-            <div
+            <ngx-dropzone
               class="custom-dropzone"
               ngx-dropzone
               [accept]="'image/*'"
               (change)="onUploadImage($event)"
+              [multiple]="false"
             >
               <ngx-dropzone-label>
                 <div>
@@ -206,20 +247,22 @@
                 (removed)="onRemove(f)"
               >
               </ngx-dropzone-image-preview>
-            </div>
+            </ngx-dropzone>
           </div>
           <div class="modal-footer">
             <button
               type="button"
               class="btn btn-danger"
               data-bs-dismiss="modal"
+              (click)="onCancel($event)"
             >
               Cancel
             </button>
             <button
+              [disabled]="disableSubmit"
               type="submit"
               class="btn btn-success"
-              data-bs-dismiss="modal"
+              id="AddNewRecord"
             >
               <i class="fa fa-plus"></i> Add New Record
             </button>

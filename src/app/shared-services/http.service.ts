@@ -32,7 +32,7 @@ export class HttpService {
   uploadFile(file: File) {
     const fd = new FormData();
     fd.append('uploadedImage', file);
-    return this.http.post(this.serverUrl + '/uploadfile', fd, {
+    return this.http.post(this.serverUrl + '/utils/uploadFile', fd, {
       reportProgress: true,
       observe: 'events',
     });
