@@ -14,7 +14,9 @@ import { HttpService } from 'src/app/shared-services/http.service';
 })
 export class DefaultComponent implements OnInit {
   currentUser: any;
+  domicileDataArray: any;
   bioDataAddForm: FormGroup;
+
   constructor(private formBuilder: FormBuilder, private http: HttpService) {
     this.bioDataAddForm = this.formBuilder.group({
       name: ['', [Validators.required]],
@@ -23,6 +25,7 @@ export class DefaultComponent implements OnInit {
       domicile: ['', [Validators.required]],
       image: ['', [Validators.required]],
     });
+    this.getAllDomicile();
   }
 
   ngOnInit(): void {
@@ -35,5 +38,24 @@ export class DefaultComponent implements OnInit {
 
   addRecord() {
     console.log('Inside Add Record Func');
+  }
+  getAllRecord() {}
+
+  getRecordById() {}
+
+  updateRecord() {}
+
+  deleteRecord() {}
+
+  getAllDomicile() {
+    this.http.postRequest('/domicile/read/all/data', {}).subscribe(
+      (response: any) => {
+        this.domicileDataArray = response;
+        console.log('domicileDataArray', this.domicileDataArray);
+      },
+      (error) => {
+        console.log('Error', error);
+      }
+    );
   }
 }

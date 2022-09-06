@@ -32,8 +32,6 @@ export class LoginComponent implements OnInit {
   }
 
   signIn() {
-    console.log('Sign In Hit', this.f['username'].value);
-    console.log('Sign In Hit', this.f['password'].value);
     this.akomaLoaderFlag = true;
     this.http
       .postRequest('/auth/signin', {

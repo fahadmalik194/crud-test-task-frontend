@@ -51,7 +51,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title custom-modal-title" id="exampleModalLabel">
-            Add New Bio Data
+            Add Record Data
           </h5>
           <button
             type="button"
@@ -97,10 +97,16 @@
                 class="form-select"
                 aria-label="Default select example"
               >
-                <option value="1">Pubjab</option>
+                <option
+                  *ngFor="let domicileElement of domicileDataArray"
+                  value="{{ domicileElement.title }}"
+                >
+                  {{ domicileElement.title }}
+                </option>
+                <!-- <option value="1">Pubjab</option>
                 <option value="2">KPK</option>
                 <option value="3">Sindh</option>
-                <option value="3">Balochistan</option>
+                <option value="3">Balochistan</option> -->
               </select>
             </div>
             <div class="mb-3">
