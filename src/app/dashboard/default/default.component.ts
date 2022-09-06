@@ -1,5 +1,10 @@
 import { HttpEventType } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+} from '@angular/core';
 import {
   FormGroup,
   FormBuilder,
@@ -60,12 +65,18 @@ export class DefaultComponent implements OnInit {
 
   bioDataAddForm: FormGroup;
   bioDataUpdateForm: FormGroup;
+  imgDiv;
 
   files: File[] = [];
 
   disableSubmit: boolean = true;
 
-  constructor(private formBuilder: FormBuilder, private http: HttpService) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private http: HttpService,
+    private elementRef: ElementRef,
+    private cdRef: ChangeDetectorRef
+  ) {
     this.currentUserDetail = localStorage.getItem('currentUser');
     this.currentUserDetail = JSON.parse(this.currentUserDetail);
     this.bioDataUpdateForm = this.formBuilder.group({
@@ -78,6 +89,13 @@ export class DefaultComponent implements OnInit {
 
     this.getAllDomicile();
     this.getAllRecord();
+  }
+
+  ngAfterViewInit() {
+    this.imgDiv = this.elementRef.nativeElement.querySelector(
+      '.proposal-img-cover'
+    );
+    this.cdRef.detectChanges();
   }
 
   ngOnInit(): void {
@@ -99,6 +117,7 @@ export class DefaultComponent implements OnInit {
 
   addRecord() {
     this.submitted = true;
+    this.akomaLoaderFlag = true;
     const closeBtn = document.getElementById('closeAddFormModal');
     if (this.bioDataAddForm.invalid) {
       return;
@@ -106,7 +125,6 @@ export class DefaultComponent implements OnInit {
     this.addRecordDataObj = this.bioDataAddForm.value;
     this.addRecordDataObj['image'] = this.uploadedImageAdd;
     this.addRecordDataObj['creatorId'] = this.currentUserDetail.id;
-    console.log('Updated Form Values', this.addRecordDataObj);
     this.http.postRequest('/bioData/create', this.addRecordDataObj).subscribe(
       (response: any) => {
         // Closing Modal
@@ -121,15 +139,18 @@ export class DefaultComponent implements OnInit {
         this.getAllRecord();
       },
       (error) => {
+        closeBtn.click();
         console.log('Error in creating bio data', error);
       }
     );
   }
 
   onCancel(event) {
+    this.akomaLoaderFlag = false;
     this.submitted = false;
     this.disableSubmit = true;
     this.bioDataAddForm.reset();
+    // this.bioDataUpdateForm.reset(); // Generating Error: Remove Table Fields
     this.files.splice(this.files.indexOf(event), 1);
   }
 
@@ -146,9 +167,21 @@ export class DefaultComponent implements OnInit {
           this.akomaLoaderFlag = false;
           this.disableSubmit = false;
           this.uploadedImageAdd = event.body.data.Location;
+          this.tempBioDataObj.image = event.body.data.Location;
         }
       },
-      (err) => {}
+      (err) => {
+        this.files.splice(this.files.indexOf(event), 1);
+        this.akomaLoaderFlag = false;
+        this.disableSubmit = true;
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Failed to Uplaod Image',
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
     );
   }
 
@@ -158,6 +191,10 @@ export class DefaultComponent implements OnInit {
 
   onRemove(event: any) {
     this.files.splice(this.files.indexOf(event), 1);
+  }
+
+  removeImage() {
+    this.imgDiv.s;
   }
 
   getAllRecord() {

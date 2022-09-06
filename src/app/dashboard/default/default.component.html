@@ -1,3 +1,11 @@
+<div *ngIf="akomaLoaderFlag" id="akoma-loader">
+  <div class="flexbox">
+    <div>
+      <div class="triple-spinner"></div>
+    </div>
+  </div>
+</div>
+
 <div class="header">
   <h1>BIO DATA</h1>
   <h4>:: You can perform (CRUD) operations in below table</h4>
@@ -114,17 +122,9 @@
   <h4 class="text-center">No Record Found</h4>
 </div>
 
-<div *ngIf="akomaLoaderFlag" id="akoma-loader">
-  <div class="flexbox">
-    <div>
-      <div class="triple-spinner"></div>
-    </div>
-  </div>
-</div>
-
 <!-- Add Bio Data Modal -->
 <div
-  class="modal fade"
+  class="modal"
   id="createModal"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
@@ -275,7 +275,7 @@
 
 <!-- Update Bio Data Modal -->
 <div
-  class="modal fade"
+  class="modal"
   id="updateModal"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
@@ -347,20 +347,42 @@
             </select>
           </div>
           <div class="mb-3">
-            <label for="image" class="form-label">Image</label>
-            <input
-              type="text"
-              class="form-control"
-              formControlName="image"
-              id="image"
-              [(ngModel)]="tempBioDataObj.image"
-            />
+            <label for="image" class="form-label">Image (Preview)</label>
+            <div class="proposal-img-cover order-1">
+              <span class="close-icon" (click)="removeImage()"
+                ><i class="bi bi-x"></i
+              ></span>
+              <img [src]="tempBioDataObj.image" width="150px" height="150px" />
+            </div>
+            <hr />
+            <div
+              class="custom-dropzone"
+              ngx-dropzone
+              [accept]="'image/*'"
+              (change)="onUploadImage($event)"
+              [multiple]="false"
+            >
+              <ngx-dropzone-label>
+                <div>
+                  <h2>Upload image here...</h2>
+                </div>
+              </ngx-dropzone-label>
+              <ngx-dropzone-image-preview
+                ngProjectAs="ngx-dropzone-preview"
+                *ngFor="let f of files"
+                [file]="f"
+                [removable]="true"
+                (removed)="onRemove(f)"
+              >
+              </ngx-dropzone-image-preview>
+            </div>
           </div>
           <div class="modal-footer">
             <button
               type="button"
               class="btn btn-danger"
               data-bs-dismiss="modal"
+              (click)="onCancel($event)"
             >
               Cancel
             </button>
@@ -380,7 +402,7 @@
 
 <!-- Delete Bio Data Modal -->
 <div
-  class="modal fade"
+  class="modal"
   id="deleteModal"
   tabindex="-1"
   aria-labelledby="exampleModalLabel"
@@ -425,7 +447,12 @@
           </p>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-success" data-bs-dismiss="modal">
+          <button
+            type="button"
+            class="btn btn-success"
+            data-bs-dismiss="modal"
+            (click)="onCancel($event)"
+          >
             Cancel
           </button>
           <button
