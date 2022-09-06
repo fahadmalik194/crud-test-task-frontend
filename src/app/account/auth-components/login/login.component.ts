@@ -41,7 +41,10 @@ export class LoginComponent implements OnInit {
       .subscribe(
         (response: any) => {
           localStorage.setItem('user_access_token', response.access_token);
-          localStorage.setItem('currentUser', response.username);
+          localStorage.setItem(
+            'currentUser',
+            JSON.stringify(response.user_detail)
+          );
           this.akomaLoaderFlag = false;
           this.router.navigate(['/dashboard']);
         },
