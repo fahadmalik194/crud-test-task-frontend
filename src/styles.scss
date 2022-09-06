@@ -2656,12 +2656,13 @@ body[data-layout-mode="dark"] a.fg-emoji-picker-close-button {
   -ms-flex-align: center;
   align-items: center;
   overflow: hidden;
-  background-color: #212529;
+  background-color: #2125299e;
   z-index: 9999;
 }
 
 /* TRIPLE SPINNER */
 .triple-spinner {
+  opacity: 0.8;
   display: block;
   position: relative;
   width: 125px;
