@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-
+import {environment} from "../../environments/environment"
 @Injectable({
   providedIn: 'root',
 })
 export class HttpService {
   constructor(private http: HttpClient) {}
 
-  serverUrl = 'http://localhost:3000';
-  // serverUrl = environment.serverUrl;
+  // serverUrl = 'http://localhost:3000';
+  serverUrl = environment.serverUrl;
   postRequest(api: any, data: any) {
     let headers = new HttpHeaders();
     headers = headers.set('Content-Type', 'application/json');
