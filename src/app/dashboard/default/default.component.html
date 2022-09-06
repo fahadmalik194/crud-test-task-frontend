@@ -10,6 +10,254 @@
   </div>
 </div>
 
-<div class="content">
-  <h2>DB Records:</h2>
+<div class="custom-container-fluid">
+  <nav class="navbar navbar-expand-lg custpm-ligth-bg">
+    <div class="container-fluid">
+      <a class="navbar-brand">Database Records</a>
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0"></ul>
+        <button
+          class="btn btn-outline-success custom-add-btn"
+          type="submit"
+          data-bs-toggle="modal"
+          data-bs-target="#createModal"
+        >
+          <i class="fa fa-plus"></i> Add New Record
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Add Bio Data Modal -->
+  <div
+    class="modal fade"
+    id="createModal"
+    tabindex="-1"
+    aria-labelledby="exampleModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title custom-modal-title" id="exampleModalLabel">
+            Add New Bio Data
+          </h5>
+          <button
+            type="button"
+            class="btn-close"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="bioDataAddForm" (ngSubmit)="addRecord()">
+            <div class="mb-3">
+              <label for="name" class="form-label">Name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="name"
+                id="name"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="father_name" class="form-label">Father Name</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="father_name"
+                id="father_name"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="cnic" class="form-label">CNIC</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="cnic"
+                id="cnic"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="domicile" class="form-label">Domicile</label>
+              <select
+                id="domicile"
+                formControlName="domicile"
+                class="form-select"
+                aria-label="Default select example"
+              >
+                <option value="1">Pubjab</option>
+                <option value="2">KPK</option>
+                <option value="3">Sindh</option>
+                <option value="3">Balochistan</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label for="image" class="form-label">Image</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="image"
+                id="image"
+              />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-danger"
+                data-bs-dismiss="modal"
+              >
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="btn btn-success"
+                data-bs-dismiss="modal"
+              >
+                Add New Record
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <table class="table custom-table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Image</th>
+        <th scope="col">Name</th>
+        <th scope="col">Father Name</th>
+        <th scope="col">CNIC</th>
+        <th scope="col">Domicile</th>
+        <th scope="col">Created At</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th scope="row">1</th>
+        <td>
+          <img
+            src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
+            width="30px"
+            height="30px"
+          />
+        </td>
+        <td>Fahad Malik</td>
+        <td>Aslam Malik</td>
+        <td>35202-4443312-4</td>
+        <td>Punjab</td>
+        <td>today @6</td>
+        <td>
+          <button type="button" class="btn btn-outline-primary me-2">
+            <i class="fa fa-edit"></i> Edit
+          </button>
+          <button type="button" class="btn btn-outline-danger">
+            <i class="fa fa-trash"></i> Delete
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">1</th>
+        <td>
+          <img
+            src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
+            width="30px"
+            height="30px"
+          />
+        </td>
+        <td>Fahad Malik</td>
+        <td>Aslam Malik</td>
+        <td>35202-4443312-4</td>
+        <td>Punjab</td>
+        <td>today @6</td>
+        <td>
+          <button type="button" class="btn btn-outline-primary me-2">
+            <i class="fa fa-edit"></i> Edit
+          </button>
+          <button type="button" class="btn btn-outline-danger">
+            <i class="fa fa-trash"></i> Delete
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">1</th>
+        <td>
+          <img
+            src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
+            width="30px"
+            height="30px"
+          />
+        </td>
+        <td>Fahad Malik</td>
+        <td>Aslam Malik</td>
+        <td>35202-4443312-4</td>
+        <td>Punjab</td>
+        <td>today @6</td>
+        <td>
+          <button type="button" class="btn btn-outline-primary me-2">
+            <i class="fa fa-edit"></i> Edit
+          </button>
+          <button type="button" class="btn btn-outline-danger">
+            <i class="fa fa-trash"></i> Delete
+          </button>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">1</th>
+        <td>
+          <img
+            src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
+            width="30px"
+            height="30px"
+          />
+        </td>
+        <td>Fahad Malik</td>
+        <td>Aslam Malik</td>
+        <td>35202-4443312-4</td>
+        <td>Punjab</td>
+        <td>today @6</td>
+        <td>
+          <p class="read-only-msg"><i class="fa fa-eye"></i> Read Only Mode</p>
+        </td>
+      </tr>
+      <tr>
+        <th scope="row">1</th>
+        <td>
+          <img
+            src="https://static.vecteezy.com/system/resources/thumbnails/002/318/271/small/user-profile-icon-free-vector.jpg"
+            width="30px"
+            height="30px"
+          />
+        </td>
+        <td>Fahad Malik</td>
+        <td>Aslam Malik</td>
+        <td>35202-4443312-4</td>
+        <td>Punjab</td>
+        <td>today @6</td>
+        <td>
+          <button type="button" class="btn btn-outline-primary me-2">
+            <i class="fa fa-edit"></i> Edit
+          </button>
+          <button type="button" class="btn btn-outline-danger">
+            <i class="fa fa-trash"></i> Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
